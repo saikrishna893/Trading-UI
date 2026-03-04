@@ -1,21 +1,20 @@
 pipeline {
     agent any
-      
+
+    tools {
+        nodejs "Node-16"
+    }
 
     stages {
-        stage('Git checkout') {
+        stage('Install') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/betawins/Trading-UI.git'
-                   }
-}
-        stage('Install npm prerequisites'){
-            steps{
-                sh 'npm audit || true'
-                sh'npm install'
-                sh'npm run build'
-                sh'cd /var/lib/jenkins/workspace/Trading-ui-pipeline/build'
-                sh'pm2 --name Trading-UI start npm -- start'
+                sh 'npm install'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'npm run build'
             }
         }
     }
